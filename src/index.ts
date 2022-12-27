@@ -32,3 +32,5 @@ function launchBot(target: any) {
 
     bot.launch();
 }
+
+export { Bot, Command, launchBot };
