@@ -25,3 +25,6 @@ class DevBot {
 let bot = ClassToBot(DevBot);
 bot.launch();
 ```
+
+Cheat sheet for features
+1. Use `{ enableLeaveCommand: true }` to automatically add `/leave` command to your scene and you can pass `leaveCommandName` to change the command name like cancel

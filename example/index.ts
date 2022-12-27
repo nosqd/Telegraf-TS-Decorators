@@ -6,7 +6,7 @@ import { Bot, Command, ClassToBot, Event, Scene, Action, ClassToScene, Enter, Le
     enableLeaveCommand: true,
     leaveCommandName: "cancel"
 })
-class DevScene {
+class ExampleScene {
     @Enter()
     async enter(ctx: Context) {
         await ctx.reply('You have entered the scene');
@@ -18,7 +18,7 @@ class DevScene {
     }
 }
 
-let devbotscene = ClassToScene(DevScene);
+let ExampleSceneC = ClassToScene(ExampleScene);
 
 @Bot({
     token: process.env.BOT_TOKEN as string,
@@ -26,7 +26,7 @@ let devbotscene = ClassToScene(DevScene);
         session()
     ]
 })
-class DevBot {
+class ExampleBot {
     @Command('ping')
     async ping(ctx: Context) {
         return await ctx.reply('pong');
@@ -41,7 +41,7 @@ class DevBot {
 
     @Action('start')
     async start_action(ctx: Scenes.SceneContext) {
-        await ctx.scene.enter(devbotscene.id);
+        await ctx.scene.enter(ExampleSceneC.id);
     }
 
     @Event('message')
@@ -50,6 +50,6 @@ class DevBot {
     }
 }
 
-let bot = ClassToBot(DevBot);
-bot.stage?.register(devbotscene);
+let bot = ClassToBot(ExampleBot);
+bot.stage?.register(ExampleSceneC);
 bot.launch();
