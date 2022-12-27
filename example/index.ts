@@ -15,7 +15,7 @@ interface MyContext {
 
 type MyContextType = Scenes.SceneContext & MyContext & Context;
 
-@Bot<MyContextType>({
+@Bot({
     token: process.env.BOT_TOKEN as string,
     middlewares: [
         session()

@@ -3,12 +3,11 @@ import "dotenv/config";
 import { Context, Telegraf, Middleware, Scenes } from "telegraf";
 import { BaseHandlerType, EntityType, SceneHandlerType } from "./enums";
 
-export function Bot<ContextType>({ token = '', middlewares = [], context}: { token: string, middlewares?: any[], context?: ContextType }) {
+export function Bot({ token = '', middlewares = []}: { token: string, middlewares?: any[]}) {
     return function (target: Function) {
         Reflect.defineMetadata('type', EntityType.Bot, target);
         Reflect.defineMetadata('bot.token', token, target);
         Reflect.defineMetadata('bot.middlewares', middlewares, target);
-        Reflect.defineMetadata('bot.context', context, target);
     }
 }
 
