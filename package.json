@@ -1,5 +1,5 @@
 {
-  "name": "OpenGram-TS-Decorators",
+  "name": "Telegraf-TS-Decorators",
   "version": "1.0.0",
   "main": "index.js",
   "author": "TheEnderOfficial <enderofficial.dp@yandex.ru>",
@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "opengram": "^0.0.1-beta.2"
+    "telegraf": "^4.11.2"
   }
 }
