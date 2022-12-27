@@ -3,7 +3,7 @@ import "dotenv/config";
 import { Context, Telegraf } from "telegraf";
 import { HandlerType } from "./enums";
 
-export function launchBot(target: any) {
+export function ClassToBot(target: any): Telegraf<Context> {
     let bot = new Telegraf(Reflect.getMetadata('bot.token', target));
 
     let handlers = Object.getOwnPropertyNames(target.prototype)
@@ -19,5 +19,5 @@ export function launchBot(target: any) {
         }
     });
 
-    bot.launch();
+    return bot;
 }

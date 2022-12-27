@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Context, Telegraf } from "telegraf";
-import { Bot, Command, launchBot, Event } from "../src";
+import { Bot, Command, ClassToBot, Event } from "../src";
 
 @Bot({
     token: process.env.BOT_TOKEN as string
@@ -17,4 +17,5 @@ class DevBot {
     }
 }
 
-launchBot(DevBot);
+let bot = ClassToBot(DevBot);
+bot.launch();
