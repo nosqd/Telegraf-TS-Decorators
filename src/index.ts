@@ -9,28 +9,44 @@ function Bot({ token = '' }: { token: string }) {
     }
 }
 
-function Command({ name = '' }: { name: string }) {
+enum HandlerType {
+    Command,
+    Event
+}
+
+function Command(name: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        Reflect.defineMetadata('command', true, target.constructor.prototype[propertyKey]);
+        Reflect.defineMetadata('type', HandlerType.Command, target.constructor.prototype[propertyKey]);
         Reflect.defineMetadata('command.name', name, target.constructor.prototype[propertyKey]);
         Reflect.defineMetadata('command.handler', target.constructor.prototype[propertyKey], target.constructor.prototype[propertyKey]);
+    }
+}
+
+function Event(event_name: string) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        Reflect.defineMetadata('type', HandlerType.Event, target.constructor.prototype[propertyKey]);
+        Reflect.defineMetadata('event.name', event_name, target.constructor.prototype[propertyKey]);
+        Reflect.defineMetadata('event.handler', target.constructor.prototype[propertyKey], target.constructor.prototype[propertyKey]);
     }
 }
 
 function launchBot(target: any) {
     let bot = new Telegraf(Reflect.getMetadata('bot.token', target));
 
-    let commands = Object.getOwnPropertyNames(target.prototype)
+    let handlers = Object.getOwnPropertyNames(target.prototype)
                                                 .filter(key => key !== 'constructor')
                                                 .map(i => target.prototype[i])
                                                 .map(i => Reflect.getMetadataKeys(i).map(key => Reflect.getMetadata(key, i)))
-                                                .map(i => {return {name: i[1], handler: i[2]}});
 
-    commands.forEach(command => {
-        bot.command(command.name, command.handler);
+    handlers.forEach(handler => {
+        if (handler[0] === HandlerType.Command) {
+            bot.command(handler[1], handler[2]);
+        } else if (handler[0] === HandlerType.Event) {
+            bot.on(handler[1], handler[2]);
+        }
     });
 
     bot.launch();
 }
 
-export { Bot, Command, launchBot };
+export { Bot, Command, Event, launchBot };
